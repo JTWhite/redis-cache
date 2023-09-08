@@ -1,10 +1,8 @@
-
 from redis import Redis
 
 
 class RedisClient:
-
-    def __init__(self, host='localhost', port=6379, db=0):
+    def __init__(self, host="localhost", port=6379, db=0):
         self.redis = Redis(host=host, port=port, db=db)
 
     def set(self, key, value):
@@ -33,4 +31,3 @@ class RedisClient:
 
     def __str__(self):
         return f"RedisClient(host={self.redis.connection_pool.connection_kwargs['host']}, port={self.redis.connection_pool.connection_kwargs['port']}, db={self.redis.connection_pool.connection_kwargs['db']})"
-
