@@ -6,6 +6,11 @@ from .redis_client import RedisClient
 rc = RedisClient()
 
 
+class RedisCache:
+
+
+    
+
 
 def construct_key(key_prefix: str, key: str):
     return '-'.join([key_prefix, key]).strip('-')

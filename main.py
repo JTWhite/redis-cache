@@ -1,16 +1,21 @@
 
 
-from cache.cache import cache
+from redis_cache import RedisCache
+
+from redis_cache.serialize import Serialize
+
+
+
 
 boo = {'boo': 'bar'}
 
-@cache(timeout=60, key_prefix='test', serializer=None)
+@RedisCache.cache(timeout=60, key_prefix='test', serialize_encoder='json')
 def select(key):
     ... 
     return boo.get(key)
 
 
-o = select('boo', cache=False)
+o = select('boo')
 
 print(o)
 
