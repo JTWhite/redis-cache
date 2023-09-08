@@ -1,5 +1,7 @@
  
 from inspect import signature, getsource, getfullargspec
+from typing import Any, Callable, Optional
+
 from .redis_client import RedisClient
 from .serialize import Serialize
 
@@ -7,7 +9,7 @@ from .serialize import Serialize
 
 class RedisCache:
 
-    def _construct_key(func: callable, args: tuple[any, ...], kwargs: dict[str, any], key_prefix: str) -> str:
+    def _construct_key(func: Callable, args: tuple[Any, ...], kwargs: dict[str, Any], key_prefix: str) -> str:
         
         try:
             varnames = getfullargspec(func).args
@@ -21,12 +23,12 @@ class RedisCache:
         return ','.join([key_prefix, str(key_vars), str(arg_vars), soruce_code]).strip(',')
     
     @staticmethod
-    def _get_result(client, key: str, serializer) -> any:
+    def _get_result(client, key: str, serializer) -> Any:
         buffer = client.get(key)
         return serializer.deserialize(serializer, buffer)
 
     @staticmethod
-    def _set_result(client, key: str, serializer, func, args, kwargs) -> any:
+    def _set_result(client, key: str, serializer, func, args, kwargs) -> Any:
         result = func(*args, **kwargs)
         client.set(key, serializer.serialize(result))
         return result
